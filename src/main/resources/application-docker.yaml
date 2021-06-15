@@ -1,0 +1,30 @@
+server:
+    port: ${SPRING_PORT:9080}
+spring:
+    datasource:
+        driverClassName: com.mysql.jdbc.Driver
+        url:  ${SPRING_DATASOURCE_URL}
+        username: ${SPRING_DATASOURCE_USERNAME:user}
+        password: ${SPRING_DATASOURCE_PASSWORD:user123}
+    jpa:
+        database : MYSQL
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        show-sql : true
+        hibernate:
+            ddl-auto: update
+            use-new-id-generator-mappings: false
+    
+    kafka:
+        topic: driver_location
+        listener:
+            missing-topics-fatal: false
+        consumer:
+            bootstrap-servers: ${KAFKA_CFG_LISTENERS:localhost:9092}
+            group-id: group_id
+            auto-offset-reset: earliest
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        producer:
+            bootstrap-servers: ${KAFKA_CFG_LISTENERS:localhost:9092}
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.apache.kafka.common.serialization.StringSerializer
